@@ -14,3 +14,4 @@ rsa==3.4.2
 six==1.10.0
 uritemplate==3.0.0
 SQLAlchemy==1.1.7
+psycopg2==2.7.1
