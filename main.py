@@ -96,7 +96,7 @@ session.commit()
 response = session.query(Logs).all()
 
 for x in response:
-    print x.AccessTime
+    print (x.AccessTime)
 
 #Close the connection
 engine.dispose()
