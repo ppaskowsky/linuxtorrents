@@ -18,45 +18,10 @@ import web_scraper
 import httpserver
 
 #########################################
-# scrape websites and download torrents #
-#########################################
-
-#create scraper object
-scraper_object = web_scraper.scraper() 
-
-#define variables
-DOWNLOAD_FOLDER = 'DOWNLOADS/'
-UPLOAD_FOLDER = DOWNLOAD_FOLDER
-
-#creates clean directory to store torrents
-try:
-	shutil.rmtree(DOWNLOAD_FOLDER)
-except OSError:
-	pass
-os.mkdir(DOWNLOAD_FOLDER)
-
-
-# These distributions have easy static links for their latest torrent downloads
-
-# Download Raspian from a static link
-scraper_object.downloadfile('http://downloads.raspberrypi.org/raspbian_latest.torrent',DOWNLOAD_FOLDER)
-scraper_object.downloadfile('http://downloads.raspberrypi.org/raspbian_lite_latest.torrent',DOWNLOAD_FOLDER)
-#Download Debian from the "current" folder
-scraper_object.scrape('http://cdimage.debian.org/debian-cd/current/amd64/bt-cd/','netinst','true',DOWNLOAD_FOLDER)
-#download Arch from the "latest" folder
-scraper_object.scrape('http://mirror.rackspace.com/archlinux/iso/latest/','torrent','true',DOWNLOAD_FOLDER)
-
-
-# These distributions require us to scrape their website to find their latest torrent downloads
-
-# Download Ubuntu
-scraper_object.scrape('http://www.ubuntu.com/download/alternative-downloads',"download-torrent",'false',DOWNLOAD_FOLDER)
-# Download Kali
-
-
-#########################################
 # Write Dyno Startup Time to Postgres   #
 #########################################
+
+print ('--- CONNECTING TO DB ----'
 
 #pull postgres url from heroku environment variable
 urlparse.uses_netloc.append("postgres")
@@ -65,7 +30,7 @@ url = urlparse.urlparse(os.environ["DATABASE_URL"])
 db_url = (url.netloc)
 database = (url.path)
 final_url = ('postgresql://'+db_url+database)
-print (final_url)
+#print (final_url)
 
 #Create a DBAPI connection
 engine = create_engine(final_url)
@@ -101,7 +66,45 @@ for x in response:
 #Close the connection
 engine.dispose()
 
-######################################
+#########################################
+# scrape websites and download torrents #
+#########################################
+
+print ('--- SCRAPING TORRENTS ---')
+
+#create scraper object
+scraper_object = web_scraper.scraper() 
+
+#define variables
+DOWNLOAD_FOLDER = 'DOWNLOADS/'
+UPLOAD_FOLDER = DOWNLOAD_FOLDER
+
+#creates clean directory to store torrents
+try:
+	shutil.rmtree(DOWNLOAD_FOLDER)
+except OSError:
+	pass
+os.mkdir(DOWNLOAD_FOLDER)
+
+
+# These distributions have easy static links for their latest torrent downloads
+
+# Download Raspian from a static link
+scraper_object.downloadfile('http://downloads.raspberrypi.org/raspbian_latest.torrent',DOWNLOAD_FOLDER)
+scraper_object.downloadfile('http://downloads.raspberrypi.org/raspbian_lite_latest.torrent',DOWNLOAD_FOLDER)
+#Download Debian from the "current" folder
+scraper_object.scrape('http://cdimage.debian.org/debian-cd/current/amd64/bt-cd/','netinst','true',DOWNLOAD_FOLDER)
+#download Arch from the "latest" folder
+scraper_object.scrape('http://mirror.rackspace.com/archlinux/iso/latest/','torrent','true',DOWNLOAD_FOLDER)
+
+
+# These distributions require us to scrape their website to find their latest torrent downloads
+
+# Download Ubuntu
+scraper_object.scrape('http://www.ubuntu.com/download/alternative-downloads',"download-torrent",'false',DOWNLOAD_FOLDER)
+# Download Kali
+
+#####################################
 # Start Web Server                   #
 ######################################
 
