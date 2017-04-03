@@ -21,7 +21,7 @@ import httpserver
 # Write Dyno Startup Time to Postgres   #
 #########################################
 
-print ('--- CONNECTING TO DB ----'
+print ('--- CONNECTING TO DB ----')
 
 #pull postgres url from heroku environment variable
 urlparse.uses_netloc.append("postgres")
