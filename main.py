@@ -58,10 +58,12 @@ session.add(command1)
 session.commit()
 
 #query via sqlalchemy orm
-response = session.query(Logs).all()
+response = session.query(Logs).order_by(Logs.Id.desc()).limit(10)
 
-for x in response:
-    print (x.AccessTime)
+print ('--- LAST 10 START TIMES ---')
+
+for y in response:
+    print y.AccessTime
 
 #Close the connection
 engine.dispose()
@@ -86,7 +88,6 @@ except OSError:
 	pass
 os.mkdir(DOWNLOAD_FOLDER)
 
-
 # These distributions have easy static links for their latest torrent downloads
 
 # Download Raspian from a static link
@@ -96,7 +97,6 @@ scraper_object.downloadfile('http://downloads.raspberrypi.org/raspbian_lite_late
 scraper_object.scrape('http://cdimage.debian.org/debian-cd/current/amd64/bt-cd/','netinst','true',DOWNLOAD_FOLDER)
 #download Arch from the "latest" folder
 scraper_object.scrape('http://mirror.rackspace.com/archlinux/iso/latest/','torrent','true',DOWNLOAD_FOLDER)
-
 
 # These distributions require us to scrape their website to find their latest torrent downloads
 
