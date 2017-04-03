@@ -63,7 +63,7 @@ response = session.query(Logs).order_by(Logs.Id.desc()).limit(10)
 print ('--- LAST 10 START TIMES ---')
 
 for y in response:
-    print y.AccessTime
+    print (y.AccessTime)
 
 #Close the connection
 engine.dispose()
