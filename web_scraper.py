@@ -1,9 +1,5 @@
 from __future__ import print_function
-import httplib2
-import os
-import io
-import uuid
-import shutil
+import httplib2, os, uuid, shutil, requests, bs4, re
 
 from apiclient.http import MediaIoBaseDownload
 from apiclient.http import MediaFileUpload
@@ -13,14 +9,10 @@ from oauth2client import tools
 from oauth2client.file import Storage
 from oauth2client.service_account import ServiceAccountCredentials
 
-import requests, bs4, os, re, shutil
-
-
-
 class scraper:
 
 	#function to search for torrent files using beautifulsoup
-	#imputs are url, search term, and if the torrent link is static or dynamic (changes per release)
+	#imputs are url, search term, and if the torrent link is static or dynamic (if it changes per release)
 	def scrape(self,url,find,static,DOWNLOAD_FOLDER):
 
 		#download html
@@ -42,7 +34,7 @@ class scraper:
 			for link in soup.find_all(href=re.compile(find)):
 				#save torrent file namein variable
 				downloadurl = link.get('href')
-				#concatinate with url
+				#concatinate with url and download
 				downloadurl = url + downloadurl
 				self.downloadfile(downloadurl,DOWNLOAD_FOLDER)
 		else:
@@ -50,7 +42,7 @@ class scraper:
 			for link in soup.find_all(class_= find):
 				#save torrent file namein variable
 				downloadurl = link.get('href')
-				#concatinate with url
+				#download file
 				self.downloadfile(downloadurl,DOWNLOAD_FOLDER)
 
 	#function to download files

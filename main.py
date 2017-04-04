@@ -60,7 +60,7 @@ session.commit()
 #query via sqlalchemy orm
 response = session.query(Logs).order_by(Logs.Id.desc()).limit(10)
 
-print ('--- LAST 10 START TIMES ---')
+print ('--- PRINT LAST 10 START TIMES ---')
 
 for y in response:
     print (y.AccessTime)
@@ -102,10 +102,9 @@ scraper_object.scrape('http://mirror.rackspace.com/archlinux/iso/latest/','torre
 
 # Download Ubuntu
 scraper_object.scrape('http://www.ubuntu.com/download/alternative-downloads',"download-torrent",'false',DOWNLOAD_FOLDER)
-# Download Kali
 
-#####################################
-# Start Web Server                   #
+######################################
+# Start simple http server           #
 ######################################
 
 httpserver_object = httpserver.httpserver(DOWNLOAD_FOLDER)
